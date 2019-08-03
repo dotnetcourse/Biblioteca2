@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Biblioteca2.Models.Carte>
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>View</h1>
+
+<p>
+	<a asp-controller="Carti" asp-action="Adauga" class="btn btn-light">Adauga</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeleCartii)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeAutor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Editura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataPublicarii)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumarPagini)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeleCartii)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumeAutor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Editura)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataPublicarii)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumarPagini)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
