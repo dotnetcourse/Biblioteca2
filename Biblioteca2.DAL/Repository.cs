@@ -40,7 +40,7 @@ namespace Biblioteca2.DAL
 				carte.NumeleCartii = reader.GetString(1);
 				carte.NumeAutor = reader.GetString(2);
 				carte.Editura = reader.GetString(3);
-				carte.DataPublicarii = reader.GetDateTime(4);
+				carte.DataPublicarii = DateTime.Parse(reader.GetString(4));
 				carte.NumarPagini = reader.GetInt32(5);
 
 				listaCarti.Add(carte);

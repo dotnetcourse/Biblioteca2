@@ -22,28 +22,15 @@ namespace Biblioteca2.Controllers
         // GET: Carti
         public ActionResult Index()
         {
-			
+			List<CarteEntity> cartiDb = _repo.CitesteCartile();
+
 			List<Carte> carti = new List<Carte>();
-			Carte carte1 = new Carte()
+
+			foreach (CarteEntity carteEntity in cartiDb)
 			{
-				Id = 1,
-				DataPublicarii = DateTime.Now,
-				Editura = "Minerva",
-				NumarPagini = 150,
-				NumeAutor = "Jack London",
-				NumeleCartii = "White Fang"
-			};
-			carti.Add(carte1);
-			Carte carte2 = new Carte()
-			{
-				Id = 2,
-				DataPublicarii = DateTime.Now,
-				Editura = "Minerva",
-				NumarPagini = 130,
-				NumeAutor = "Agata Cristie",
-				NumeleCartii = "Poirot"
-			};
-			carti.Add(carte2);
+				Carte carte = Map(carteEntity);
+				carti.Add(carte);
+			}
 
 			return View(carti);
         }
@@ -60,6 +47,21 @@ namespace Biblioteca2.Controllers
 			_repo.AdaugaCarte(Map(model));
 
 			return RedirectToAction("Index");
+		}
+
+		private Carte Map(CarteEntity entity)
+		{
+			Carte model = new Carte
+			{
+				Id = entity.Id,
+				DataPublicarii = entity.DataPublicarii,
+				Editura = entity.Editura,
+				NumeAutor = entity.NumeAutor,
+				NumarPagini = entity.NumarPagini,
+				NumeleCartii =  entity.NumeleCartii
+			};
+
+			return model;
 		}
 
 		private CarteEntity Map(Carte model)
