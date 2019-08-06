@@ -1,0 +1,54 @@
+﻿@model Biblioteca2.Models.Carte
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Carte</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+			<input hidden asp-for="Id" />
+
+            <div class="form-group">
+                <label asp-for="NumeleCartii" class="control-label" ></label>
+                <input asp-for="NumeleCartii" class="form-control" readonly />
+                <span asp-validation-for="NumeleCartii" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumeAutor" class="control-label"></label>
+                <input asp-for="NumeAutor" class="form-control" />
+                <span asp-validation-for="NumeAutor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Editura" class="control-label"></label>
+                <input asp-for="Editura" class="form-control" />
+                <span asp-validation-for="Editura" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataPublicarii" class="control-label"></label>
+                <input asp-for="DataPublicarii" class="form-control" />
+                <span asp-validation-for="DataPublicarii" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumarPagini" class="control-label"></label>
+                <input asp-for="NumarPagini" class="form-control" />
+                <span asp-validation-for="NumarPagini" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -22,17 +22,17 @@ namespace Biblioteca2.Controllers
         // GET: Carti
         public ActionResult Index()
         {
-			List<CarteEntity> cartiDb = _repo.CitesteCartile();
+			List<CarteEntity> listaDb = _repo.CitesteCartile();
 
-			List<Carte> carti = new List<Carte>();
+			List<Carte> listaCarti = new List<Carte>();
 
-			foreach (CarteEntity carteEntity in cartiDb)
+			foreach (CarteEntity entity in listaDb)
 			{
-				Carte carte = Map(carteEntity);
-				carti.Add(carte);
+				Carte model = Map(entity);
+				listaCarti.Add(model);
 			}
 
-			return View(carti);
+			return View(listaCarti);
         }
 
 		[HttpGet]
@@ -49,6 +49,38 @@ namespace Biblioteca2.Controllers
 			return RedirectToAction("Index");
 		}
 
+		public ActionResult Delete(int id)
+		{
+			_repo.Delete(id);
+
+			return RedirectToAction("Index");
+		}
+
+		[HttpGet]
+		public ActionResult Edit(int id)
+		{
+			List<CarteEntity> listaDb = _repo.CitesteCartile();
+
+			List<Carte> listaCarti = new List<Carte>();
+
+			foreach (CarteEntity entity in listaDb)
+			{
+				Carte model = Map(entity);
+				listaCarti.Add(model);
+			}
+
+			Carte carteEditata = listaCarti.Single(x => x.Id == id);
+
+			return View(carteEditata);
+		}
+
+		public ActionResult Edit(Carte model)
+		{
+			_repo.Update(model.Id, Map(model));
+
+			return RedirectToAction("Index");
+		}
+
 		private Carte Map(CarteEntity entity)
 		{
 			Carte model = new Carte
@@ -56,9 +88,9 @@ namespace Biblioteca2.Controllers
 				Id = entity.Id,
 				DataPublicarii = entity.DataPublicarii,
 				Editura = entity.Editura,
-				NumeAutor = entity.NumeAutor,
 				NumarPagini = entity.NumarPagini,
-				NumeleCartii =  entity.NumeleCartii
+				NumeAutor = entity.NumeAutor,
+				NumeleCartii = entity.NumeleCartii
 			};
 
 			return model;

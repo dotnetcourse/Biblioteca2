@@ -47,5 +47,22 @@ namespace Biblioteca2.DAL
 			}
 			return listaCarti;
 		}
+
+		public void Delete(int id)
+		{
+			SQLiteCommand command = new SQLiteCommand(_connection);
+			command.CommandText = $"Delete from Carti where id = {id}";
+			command.ExecuteNonQuery();
+		}
+
+		public void Update(int id, CarteEntity entity)
+		{
+			SQLiteCommand command = new SQLiteCommand(_connection);
+			command.CommandText = $"Update Carti Set NumeAutor=\"{entity.NumeAutor}\"" +
+				$",Editura=\"{entity.Editura}\",DataPublicarii=\"{entity.DataPublicarii}\"," +
+				$"NumarPagini=\"{entity.NumarPagini}\" where id={id}";
+
+			command.ExecuteNonQuery();
+		}
 	}
 }
