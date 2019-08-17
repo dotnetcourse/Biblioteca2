@@ -7,6 +7,7 @@ using Biblioteca2.DAL.Entities;
 using Biblioteca2.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Biblioteca2.Controllers
 {
@@ -38,12 +39,33 @@ namespace Biblioteca2.Controllers
 		[HttpGet]
 		public ActionResult Adauga()
 		{
+			var autori = new List<Autor> {
+				new Autor
+				{
+					Id  = 1,
+					NumeAutor = "Jack London"
+				},
+				new Autor
+				{
+					Id = 2,
+					NumeAutor = "R. R. Martin"
+				}
+			};
+
+			ViewBag.Mama = "mama";
+			ViewBag.Autori = new SelectList(autori, nameof(Autor.NumeAutor), nameof(Autor.NumeAutor));
+
 			return View();
 		}
 
 		[HttpPost]
 		public ActionResult Adauga(Carte model)
 		{
+			if (!TryValidateModel(model))
+			{
+				return BadRequest();
+			}
+
 			_repo.AdaugaCarte(Map(model));
 
 			return RedirectToAction("Index");
