@@ -17,4 +17,9 @@
     <ProjectReference Include="..\Biblioteca2.DAL\Biblioteca2.DAL.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\uploaded\" />
+  </ItemGroup>
+
 </Project>

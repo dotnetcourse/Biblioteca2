@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Biblioteca2.DAL;
 using Biblioteca2.DAL.Entities;
@@ -8,6 +9,8 @@ using Biblioteca2.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Biblioteca2.Controllers
 {
@@ -35,6 +38,24 @@ namespace Biblioteca2.Controllers
 
 			return View(listaCarti);
         }
+
+		public ActionResult DescarcaCartile()
+		{
+			List<CarteEntity> listaDb = _repo.CitesteCartile();
+			List<Carte> listaCarti = new List<Carte>();
+
+			foreach (CarteEntity entity in listaDb)
+			{
+				Carte model = Map(entity);
+				listaCarti.Add(model);
+			}
+
+			string serializat = JsonConvert.SerializeObject(listaCarti);
+			byte[] bytes = Encoding.UTF8.GetBytes(serializat);
+			return File(bytes, "application/json", "listaCarti.json");
+			//FileStream myFile = System.IO.File.Open();
+			//return File(myFile, "application/octet-stream", "myfile.someextention");
+		}
 
 		[HttpGet]
 		public ActionResult Adauga()
@@ -94,6 +115,34 @@ namespace Biblioteca2.Controllers
 			Carte carteEditata = listaCarti.Single(x => x.Id == id);
 
 			return View(carteEditata);
+		}
+
+		[HttpGet]
+		public ActionResult Upload()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public IActionResult Upload(List<IFormFile> files)
+		{
+			string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploaded");
+
+			foreach (IFormFile file in files)
+			{
+				string randomPart = Guid.NewGuid().ToString();
+				string filename = randomPart + Path.GetExtension(file.FileName);
+
+				using (FileStream newFile = System.IO.File.OpenWrite(Path.Combine(uploadPath, filename)))
+				{
+					file.CopyTo(newFile);
+					newFile.Flush();
+					
+					//Close will be automatically executed when this block finishes
+				}
+			}
+
+			return View("UploadSuccess");
 		}
 
 		public ActionResult Edit(Carte model)
