@@ -11,21 +11,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System.IO;
+using Microsoft.Extensions.Configuration;
 
 namespace Biblioteca2.Controllers
 {
     public class CartiController : Controller
     {
 		private Repository _repo;
+		private IConfiguration _config;
 
-		public CartiController()
+		public CartiController(IConfiguration config)
 		{
+			string mysql = config.GetValue<string>("mysqlconn");
+			string boo = config.GetValue<string>("mama:subSectiune:boo");
 			_repo = new Repository();
+			_config = config;
 		}
 
-        // GET: Carti
-        public ActionResult Index()
-        {
+		public ActionResult Foo()
+		{
 			List<CarteEntity> listaDb = _repo.CitesteCartile();
 
 			List<Carte> listaCarti = new List<Carte>();
@@ -35,6 +39,24 @@ namespace Biblioteca2.Controllers
 				Carte model = Map(entity);
 				listaCarti.Add(model);
 			}
+
+			return Ok(listaCarti.FirstOrDefault());
+		}
+
+        // GET: Carti
+        public ActionResult Index(string search = null)
+        {
+			List<CarteEntity> listaDb = _repo.CitesteCartile(search);
+
+			List<Carte> listaCarti = new List<Carte>();
+
+			foreach (CarteEntity entity in listaDb)
+			{
+				Carte model = Map(entity);
+				listaCarti.Add(model);
+			}
+
+			ViewBag.search = search;
 
 			return View(listaCarti);
         }

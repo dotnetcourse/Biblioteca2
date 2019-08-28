@@ -1,61 +1,71 @@
 ﻿@model IEnumerable<Biblioteca2.Models.Carte>
 
 @{
-    ViewData["Title"] = "View";
+	ViewData["Title"] = "View";
 }
 
 <h1>View</h1>
+
+<div class="row">
+	<div class="col-md-4">
+		<form asp-action="index" method="get">
+			<input type="text" id="search" name="search" value="@ViewBag.search" /> 
+			<input type="submit" value="Search" class="btn btn-primary" />
+		</form>
+	</div>
+</div>
 
 <p>
 	<a asp-controller="Carti" asp-action="Adauga" class="btn btn-light">Adauga</a>
 	<a asp-controller="Carti" asp-action="DescarcaCartile" class="btn btn-light">Descarca Lista Carti</a>
 </p>
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.NumeleCartii)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumeAutor)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Editura)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DataPublicarii)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NumarPagini)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumeleCartii)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumeAutor)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Editura)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataPublicarii)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumarPagini)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.Id  }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new {  id=item.Id  })
-				@*<a asp-action="Delete" asp-all-route-data="id=@item.id">Delete</a>*@
-            </td>
-        </tr>
-}
-    </tbody>
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.NumeleCartii)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.NumeAutor)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Editura)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.DataPublicarii)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.NumarPagini)
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.NumeleCartii)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.NumeAutor)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Editura)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.DataPublicarii)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.NumarPagini)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+					@Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+					@Html.ActionLink("Delete", "Delete", new { id = item.Id })
+					@*<a asp-action="Delete" asp-all-route-data="id=@item.id">Delete</a>*@
+				</td>
+			</tr>
+		}
+	</tbody>
 </table>

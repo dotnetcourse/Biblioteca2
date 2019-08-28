@@ -1,4 +1,5 @@
 ﻿using Biblioteca2.DAL.Entities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -10,7 +11,7 @@ namespace Biblioteca2.DAL
 	{
 		private SQLiteConnection _connection;
 
-		public Repository()
+		public Repository(IConfiguration config)
 		{
 			_connection = new SQLiteConnection(
 				"Data Source=database.db; Version = 3; New = True; Compress = True; ");
@@ -25,10 +26,17 @@ namespace Biblioteca2.DAL
 			command.ExecuteNonQuery();
 		}
 
-		public List<CarteEntity> CitesteCartile()
+		public List<CarteEntity> CitesteCartile(string cautare = null)
 		{
 			SQLiteCommand command = new SQLiteCommand(_connection);
-			command.CommandText = "Select * from Carti";
+
+			string query = "Select * from Carti";
+			if (cautare != null)
+			{
+				query += $" Where NumeleCartii Like \"%{cautare}%\" OR NumeAutor Like \"%{cautare}%\"";
+			}
+			command.CommandText = query;
+
 			SQLiteDataReader reader = command.ExecuteReader();
 
 			List<CarteEntity> listaCarti = new List<CarteEntity>();
